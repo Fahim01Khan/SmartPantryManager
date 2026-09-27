@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Position 0 is a prompt, not a real unit; validation rejects it -->
+    <string-array name="units">
+        <item>Select unit</item>
+        <item>g</item>
+        <item>kg</item>
+        <item>ml</item>
+        <item>l</item>
+        <item>unit</item>
+    </string-array>
+</resources>
