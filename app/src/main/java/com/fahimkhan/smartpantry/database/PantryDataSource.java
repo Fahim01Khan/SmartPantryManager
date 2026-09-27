@@ -68,6 +68,21 @@ public class PantryDataSource {
         }
         return items;
     }
+    /**
+     * Finds a pantry item by name, ignoring capitals and surrounding spaces.
+     * Used to stop the same ingredient being added twice.
+     * @return the matching item, or null if there is none
+     */
+    public PantryItem findPantryItemByName(String name) {
+        try (Cursor cursor = database.query(TABLE_PANTRY, null,
+                "LOWER(TRIM(" + COL_PANTRY_NAME + ")) = LOWER(TRIM(?))",
+                new String[]{name}, null, null, null, "1")) {
+            if (cursor.moveToFirst()) {
+                return cursorToPantryItem(cursor);
+            }
+        }
+        return null;
+    }
 
     /** Returns the pantry item with the given id, or null if it does not exist. */
     public PantryItem getPantryItemById(int id) {

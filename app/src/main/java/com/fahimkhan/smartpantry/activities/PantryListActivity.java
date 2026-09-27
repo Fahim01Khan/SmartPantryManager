@@ -1,5 +1,6 @@
 package com.fahimkhan.smartpantry.activities;
 
+import android.content.Intent;
 import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
@@ -74,8 +75,9 @@ public class PantryListActivity extends AppCompatActivity
 
     private void initAddButton() {
         FloatingActionButton fabAddItem = findViewById(R.id.fabAddItem);
+        // No extras, so the form opens in Add mode
         fabAddItem.setOnClickListener(v ->
-                Toast.makeText(this, "Add form coming in Step 3C", Toast.LENGTH_SHORT).show());
+                startActivity(new Intent(this, IngredientFormActivity.class)));
     }
 
     /** Reads all pantry items from the database and shows the list or the empty message. */
@@ -103,7 +105,10 @@ public class PantryListActivity extends AppCompatActivity
 
     @Override
     public void onEditItem(PantryItem item) {
-        Toast.makeText(this, "Edit " + item.getName() + " (Step 3C)", Toast.LENGTH_SHORT).show();
+        // Passing the id opens the form in Edit mode for this item
+        Intent intent = new Intent(this, IngredientFormActivity.class);
+        intent.putExtra(IngredientFormActivity.EXTRA_ITEM_ID, item.getId());
+        startActivity(intent);
     }
 
     @Override
