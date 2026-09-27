@@ -44,7 +44,9 @@ public class PantryListActivity extends AppCompatActivity
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pantry_list);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            // Pad for system bars and the camera cutout (it sits at the side in landscape)
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.displayCutout());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });

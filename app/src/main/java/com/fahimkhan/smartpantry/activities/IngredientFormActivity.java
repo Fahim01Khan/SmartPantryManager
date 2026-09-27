@@ -64,8 +64,10 @@ public class IngredientFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ingredient_form);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             // Include the keyboard (ime) so it never covers the Save button
-            Insets bars = insets.getInsets(
-                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
+            // Pad for system bars, the camera cutout, and the keyboard
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.displayCutout()
+                    | WindowInsetsCompat.Type.ime());
             v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
             return insets;
         });
