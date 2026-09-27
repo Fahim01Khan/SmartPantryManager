@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">SmartPantryManager</string>
+    <string name="title_pantry">My Pantry</string>
+    <string name="empty_pantry">Your pantry is empty. Tap + to add your first ingredient.</string>
+    <string name="expires_on">Expires %1$s</string>
+    <string name="add_item">Add ingredient</string>
+    <string name="edit_item">Edit item</string>
+    <string name="delete_item">Delete item</string>
+    <string name="error_loading_pantry">Could not load your pantry. Please try again.</string>
 </resources>
