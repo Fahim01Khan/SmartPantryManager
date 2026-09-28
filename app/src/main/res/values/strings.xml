@@ -35,4 +35,11 @@
     <string name="item_updated">%1$s updated</string>
     <string name="error_saving_item">Could not save the item. Please try again.</string>
     <string name="error_item_not_found">That item no longer exists.</string>
+
+    <!-- Delete confirmation -->
+    <string name="dialog_delete_title">Delete ingredient?</string>
+    <string name="dialog_delete_message">%1$s will be removed from your pantry. This cannot be undone.</string>
+    <string name="delete">Delete</string>
+    <string name="item_deleted">%1$s deleted</string>
+    <string name="error_deleting_item">Could not delete the item. Please try again.</string>
 </resources>

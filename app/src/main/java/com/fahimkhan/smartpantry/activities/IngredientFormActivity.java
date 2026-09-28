@@ -56,6 +56,7 @@ public class IngredientFormActivity extends AppCompatActivity {
 
     private int editingItemId = NO_ITEM;
     private String selectedExpiryDate;   // Stored format yyyy-MM-dd, or null
+    private DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,6 @@ public class IngredientFormActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_ingredient_form);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            // Include the keyboard (ime) so it never covers the Save button
             // Pad for system bars, the camera cutout, and the keyboard
             Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
                     | WindowInsetsCompat.Type.displayCutout()
@@ -96,6 +96,15 @@ public class IngredientFormActivity extends AppCompatActivity {
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_EXPIRY_DATE, selectedExpiryDate);
+    }
+
+    /** Closes the date picker if it is open, so it is not leaked when the Activity is destroyed. */
+    @Override
+    protected void onDestroy() {
+        if (datePickerDialog != null && datePickerDialog.isShowing()) {
+            datePickerDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
     private boolean isEditMode() {
@@ -188,7 +197,7 @@ public class IngredientFormActivity extends AppCompatActivity {
                     Integer.parseInt(parts[2]));
         }
 
-        DatePickerDialog dialog = new DatePickerDialog(this,
+        datePickerDialog = new DatePickerDialog(this,
                 (view, year, month, dayOfMonth) -> {
                     // month is zero-based (January = 0), so add 1 for storage
                     selectedExpiryDate = String.format(Locale.US, "%04d-%02d-%02d",
@@ -200,8 +209,8 @@ public class IngredientFormActivity extends AppCompatActivity {
                 calendar.get(Calendar.DAY_OF_MONTH));
 
         // New expiry dates cannot be in the past
-        dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        dialog.show();
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        datePickerDialog.show();
     }
 
     private void updateExpiryDisplay() {

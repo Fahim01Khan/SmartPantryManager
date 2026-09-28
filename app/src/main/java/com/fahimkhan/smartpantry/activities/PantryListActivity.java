@@ -15,12 +15,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AlertDialog;
 
 import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.adapters.PantryAdapter;
 import com.fahimkhan.smartpantry.database.PantryDataSource;
 import com.fahimkhan.smartpantry.models.PantryItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +39,7 @@ public class PantryListActivity extends AppCompatActivity
     private RecyclerView recyclerPantry;
     private TextView textEmptyPantry;
     private PantryAdapter adapter;
+    private AlertDialog deleteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,15 @@ public class PantryListActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         loadPantryItems();
+    }
+
+    /** Closes any open dialog so it is not leaked when the Activity is destroyed. */
+    @Override
+    protected void onDestroy() {
+        if (deleteDialog != null && deleteDialog.isShowing()) {
+            deleteDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
     /** One-time setup: connects the RecyclerView to its LayoutManager and Adapter. */
@@ -115,6 +127,33 @@ public class PantryListActivity extends AppCompatActivity
 
     @Override
     public void onDeleteItem(PantryItem item) {
-        Toast.makeText(this, "Delete " + item.getName() + " (Step 3D)", Toast.LENGTH_SHORT).show();
+        deleteDialog = new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.dialog_delete_title)
+                .setMessage(getString(R.string.dialog_delete_message, item.getName()))
+                .setNegativeButton(R.string.cancel, null)   // null simply closes the dialog
+                .setPositiveButton(R.string.delete, (dialog, which) -> deleteItem(item))
+                .show();
+    }
+
+    /** Deletes the item from the database, then reloads the list so it matches. */
+    private void deleteItem(PantryItem item) {
+        PantryDataSource dataSource = new PantryDataSource(this);
+        boolean deleted = false;
+        try {
+            dataSource.open();
+            deleted = dataSource.deletePantryItem(item.getId());
+        } catch (SQLException e) {
+            Log.e(TAG, "Failed to delete pantry item " + item.getId(), e);
+        } finally {
+            dataSource.close();
+        }
+
+        if (deleted) {
+            Toast.makeText(this, getString(R.string.item_deleted, item.getName()),
+                    Toast.LENGTH_SHORT).show();
+            loadPantryItems();   // Refreshes the list and shows the empty state if needed
+        } else {
+            Toast.makeText(this, R.string.error_deleting_item, Toast.LENGTH_LONG).show();
+        }
     }
 }
