@@ -12,8 +12,10 @@ import com.fahimkhan.smartpantry.models.RecipeIngredient;
  * Inserts the built-in recipe collection. Called once, from
  * PantryDBHelper.onCreate, so recipes are never duplicated.
  * Design rules: ingredient names are lowercase and singular; each ingredient
- * always uses the same kind of unit (weight, volume or count); salt, pepper
- * and water are treated as staples and are not listed as requirements.
+ * always uses the same kind of unit chosen to match how home cooks measure it
+ * (fresh produce such as potatoes and tomatoes is counted; dry goods are weighed;
+ * liquids are measured by volume); salt, pepper and water are treated as staples
+ * and are not listed as requirements.
  */
 public final class DatabaseSeeder {
 
@@ -125,24 +127,24 @@ public final class DatabaseSeeder {
                 ing("rice", 200, GRAM), ing("carrot", 1, COUNT),
                 ing("onion", 1, COUNT), ing("oil", 30, MILLILITRE));
 
-        // ----- Potatoes -----
+        // ----- Potatoes (counted, because recipes and home cooks count them) -----
         insertRecipe(db, "Mashed Potatoes",
                 "1. Peel and quarter the potatoes, then boil until soft (about 20 minutes).\n"
                         + "2. Drain, then mash with the butter.\n"
                         + "3. Beat in the warm milk until smooth, season to taste, and serve.",
-                ing("potato", 1, KILOGRAM), ing("butter", 50, GRAM), ing("milk", 100, MILLILITRE));
+                ing("potato", 4, COUNT), ing("butter", 50, GRAM), ing("milk", 100, MILLILITRE));
 
         insertRecipe(db, "Potato Wedges",
                 "1. Preheat the oven to 200 °C.\n"
                         + "2. Cut the potatoes into wedges and toss with the oil and seasoning.\n"
                         + "3. Spread on a tray and bake for 35 to 40 minutes, turning halfway.",
-                ing("potato", 500, GRAM), ing("oil", 30, MILLILITRE));
+                ing("potato", 3, COUNT), ing("oil", 30, MILLILITRE));
 
         insertRecipe(db, "Fried Potatoes and Onions",
                 "1. Slice the potatoes thinly and the onions into rings.\n"
                         + "2. Fry the potatoes in the oil over medium heat for 15 minutes.\n"
                         + "3. Add the onions and fry until both are golden, then season and serve.",
-                ing("potato", 500, GRAM), ing("onion", 2, COUNT), ing("oil", 45, MILLILITRE));
+                ing("potato", 3, COUNT), ing("onion", 2, COUNT), ing("oil", 45, MILLILITRE));
 
         // ----- Soups, smoothies and sweet -----
         insertRecipe(db, "Tomato Soup",

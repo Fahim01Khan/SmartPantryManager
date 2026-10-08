@@ -14,7 +14,7 @@ public class PantryDBHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "PantryDBHelper";
     private static final String DATABASE_NAME = "smartpantry.db";
-    private static final int DATABASE_VERSION = 2; // v2: recipes are seeded on creation
+    private static final int DATABASE_VERSION = 3; // v3: potatoes counted in seed recipes
 
     // ----- pantry_items table -----
     public static final String TABLE_PANTRY = "pantry_items";
