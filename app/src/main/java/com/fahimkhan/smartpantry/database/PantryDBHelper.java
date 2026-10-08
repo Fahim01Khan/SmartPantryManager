@@ -14,7 +14,7 @@ public class PantryDBHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "PantryDBHelper";
     private static final String DATABASE_NAME = "smartpantry.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2; // v2: recipes are seeded on creation
 
     // ----- pantry_items table -----
     public static final String TABLE_PANTRY = "pantry_items";
@@ -79,10 +79,12 @@ public class PantryDBHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PANTRY);
         db.execSQL(CREATE_TABLE_RECIPES);
         db.execSQL(CREATE_TABLE_RECIPE_INGREDIENTS);
+        // Runs once per database; onCreate is already inside a transaction
+        DatabaseSeeder.seedRecipes(db);
     }
 
     /**
-     * Runs when DATABASE_VERSION is increased. During development we simply
+     * Runs when DATABASE_VERSION is increased. During development, we simply
      * rebuild the tables; this deletes existing data.
      */
     @Override
