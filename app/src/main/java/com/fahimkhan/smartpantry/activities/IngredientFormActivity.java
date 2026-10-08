@@ -5,10 +5,8 @@ import android.database.SQLException;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,13 +18,17 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.fahimkhan.smartpantry.R;
+import com.fahimkhan.smartpantry.adapters.NoFilterArrayAdapter;
 import com.fahimkhan.smartpantry.database.PantryDataSource;
 import com.fahimkhan.smartpantry.models.PantryItem;
 import com.fahimkhan.smartpantry.utils.FormatUtils;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -41,18 +43,17 @@ public class IngredientFormActivity extends AppCompatActivity {
     private static final String TAG = "IngredientFormActivity";
     private static final String KEY_EXPIRY_DATE = "expiry_date";
     private static final int NO_ITEM = -1;
-    private static final int NO_UNIT_SELECTED = 0;   // Position of the "Select unit" prompt
     private static final String NAME_PATTERN = "[\\p{L} '\\-]+";  // Letters, spaces, ' and -
 
     private TextInputLayout layoutName;
     private TextInputLayout layoutQuantity;
     private TextInputEditText editName;
     private TextInputEditText editQuantity;
-    private Spinner spinnerUnit;
-    private TextView textUnitError;
+    private TextInputLayout layoutUnit;
+    private MaterialAutoCompleteTextView autoCompleteUnit;
     private TextView textExpiryDate;
     private Button buttonClearDate;
-    private ArrayAdapter<CharSequence> unitAdapter;
+    private List<String> validUnits;
 
     private int editingItemId = NO_ITEM;
     private String selectedExpiryDate;   // Stored format yyyy-MM-dd, or null
@@ -73,7 +74,7 @@ public class IngredientFormActivity extends AppCompatActivity {
         });
 
         initViews();
-        initUnitSpinner();
+        initUnitDropdown();
         initButtons();
 
         editingItemId = getIntent().getIntExtra(EXTRA_ITEM_ID, NO_ITEM);
@@ -98,11 +99,14 @@ public class IngredientFormActivity extends AppCompatActivity {
         outState.putString(KEY_EXPIRY_DATE, selectedExpiryDate);
     }
 
-    /** Closes the date picker if it is open, so it is not leaked when the Activity is destroyed. */
+    /** Closes any open popups so they are not leaked when the Activity is destroyed. */
     @Override
     protected void onDestroy() {
         if (datePickerDialog != null && datePickerDialog.isShowing()) {
             datePickerDialog.dismiss();
+        }
+        if (autoCompleteUnit != null) {
+            autoCompleteUnit.dismissDropDown();
         }
         super.onDestroy();
     }
@@ -118,32 +122,22 @@ public class IngredientFormActivity extends AppCompatActivity {
         layoutQuantity = findViewById(R.id.layoutQuantity);
         editName = findViewById(R.id.editName);
         editQuantity = findViewById(R.id.editQuantity);
-        spinnerUnit = findViewById(R.id.spinnerUnit);
-        textUnitError = findViewById(R.id.textUnitError);
+        layoutUnit = findViewById(R.id.layoutUnit);
+        autoCompleteUnit = findViewById(R.id.autoCompleteUnit);
         textExpiryDate = findViewById(R.id.textExpiryDate);
         buttonClearDate = findViewById(R.id.buttonClearDate);
     }
 
-    private void initUnitSpinner() {
-        unitAdapter = ArrayAdapter.createFromResource(this, R.array.units,
-                android.R.layout.simple_spinner_item);
-        unitAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUnit.setAdapter(unitAdapter);
+    /** Attaches the unit options to the dropdown using an adapter that never filters. */
+    private void initUnitDropdown() {
+        validUnits = Arrays.asList(getResources().getStringArray(R.array.units));
+        NoFilterArrayAdapter<String> unitAdapter = new NoFilterArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, validUnits);
+        autoCompleteUnit.setAdapter(unitAdapter);
 
-        // Hide the unit error as soon as the user picks a real unit
-        spinnerUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != NO_UNIT_SELECTED) {
-                    textUnitError.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Nothing to do
-            }
-        });
+        // Clear the unit error as soon as the user picks a unit
+        autoCompleteUnit.setOnItemClickListener((parent, view, position, id) ->
+                layoutUnit.setError(null));
     }
 
     private void initButtons() {
@@ -171,10 +165,8 @@ public class IngredientFormActivity extends AppCompatActivity {
             }
             editName.setText(item.getName());
             editQuantity.setText(FormatUtils.formatQuantity(item.getQuantity()));
-            int unitPosition = unitAdapter.getPosition(item.getUnit());
-            if (unitPosition >= 0) {
-                spinnerUnit.setSelection(unitPosition);
-            }
+            // false = set the text without triggering the dropdown's filter
+            autoCompleteUnit.setText(item.getUnit(), false);
             selectedExpiryDate = item.getExpiryDate();
         } catch (SQLException e) {
             Log.e(TAG, "Failed to load item " + editingItemId, e);
@@ -233,7 +225,7 @@ public class IngredientFormActivity extends AppCompatActivity {
         // Clear errors from the previous attempt first
         layoutName.setError(null);
         layoutQuantity.setError(null);
-        textUnitError.setVisibility(View.GONE);
+        layoutUnit.setError(null);
 
         boolean isValid = true;
 
@@ -267,16 +259,16 @@ public class IngredientFormActivity extends AppCompatActivity {
             }
         }
 
-        // Unit: the "Select unit" prompt is not a valid choice
-        if (spinnerUnit.getSelectedItemPosition() == NO_UNIT_SELECTED) {
-            textUnitError.setVisibility(View.VISIBLE);
+        // Unit: must be chosen, and must be one of the allowed units
+        String unit = textOf(autoCompleteUnit);
+        if (unit.isEmpty() || !validUnits.contains(unit)) {
+            layoutUnit.setError(getString(R.string.error_unit_required));
             isValid = false;
         }
 
         if (!isValid) {
             return null;
         }
-        String unit = spinnerUnit.getSelectedItem().toString();
         return new PantryItem(editingItemId, name, quantity, unit, selectedExpiryDate);
     }
 
@@ -318,7 +310,7 @@ public class IngredientFormActivity extends AppCompatActivity {
     }
 
     /** Returns the trimmed text of a field, never null. */
-    private String textOf(TextInputEditText field) {
+    private String textOf(EditText field) {
         return field.getText() == null ? "" : field.getText().toString().trim();
     }
 }
