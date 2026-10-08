@@ -10,7 +10,6 @@ import java.util.Set;
  * Converts ingredient names into one canonical form so that names which mean
  * the same ingredient compare as equal: "  Tomatoes " and "tomato" both become
  * "tomato"; "Cake flour" becomes "flour".
- *
  * Both pantry names and recipe names pass through this class, so even an
  * imperfect rule is safe as long as singular and plural forms end up the same.
  */
