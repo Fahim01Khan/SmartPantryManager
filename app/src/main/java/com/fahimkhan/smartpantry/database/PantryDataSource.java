@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.fahimkhan.smartpantry.models.PantryItem;
+import com.fahimkhan.smartpantry.utils.IngredientNormaliser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,17 +69,17 @@ public class PantryDataSource {
         }
         return items;
     }
+
     /**
-     * Finds a pantry item by name, ignoring capitals and surrounding spaces.
-     * Used to stop the same ingredient being added twice.
+     * Finds a pantry item that is the same ingredient as the given name, using the
+     * same normalisation as recipe matching: "Eggs" matches "egg", "Cake flour" matches "Flour".
      * @return the matching item, or null if there is none
      */
     public PantryItem findPantryItemByName(String name) {
-        try (Cursor cursor = database.query(TABLE_PANTRY, null,
-                "LOWER(TRIM(" + COL_PANTRY_NAME + ")) = LOWER(TRIM(?))",
-                new String[]{name}, null, null, null, "1")) {
-            if (cursor.moveToFirst()) {
-                return cursorToPantryItem(cursor);
+        String target = IngredientNormaliser.normalise(name);
+        for (PantryItem item : getAllPantryItems()) {
+            if (IngredientNormaliser.normalise(item.getName()).equals(target)) {
+                return item;
             }
         }
         return null;

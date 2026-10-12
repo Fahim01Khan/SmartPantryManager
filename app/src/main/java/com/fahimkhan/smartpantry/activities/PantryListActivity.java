@@ -9,20 +9,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.app.AlertDialog;
 
 import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.adapters.PantryAdapter;
 import com.fahimkhan.smartpantry.database.PantryDataSource;
 import com.fahimkhan.smartpantry.models.PantryItem;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class PantryListActivity extends AppCompatActivity
         loadPantryItems();
     }
 
-    /** Closes any open dialog so it is not leaked when the Activity is destroyed. */
+    /** Closes any open dialogue so it is not leaked when the Activity is destroyed. */
     @Override
     protected void onDestroy() {
         if (deleteDialog != null && deleteDialog.isShowing()) {
