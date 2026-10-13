@@ -21,6 +21,7 @@ import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.adapters.PantryAdapter;
 import com.fahimkhan.smartpantry.database.PantryDataSource;
 import com.fahimkhan.smartpantry.models.PantryItem;
+import com.fahimkhan.smartpantry.utils.NavigationHelper;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -47,15 +48,16 @@ public class PantryListActivity extends AppCompatActivity
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pantry_list);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            // Pad for system bars and the camera cutout (it sits at the side in landscape)
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
-                    | WindowInsetsCompat.Type.displayCutout());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            Insets bars = insets.getInsets(
+                    WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
+            // Bottom is 0: the BottomNavigationView pads itself above the gesture bar
+            v.setPadding(bars.left, bars.top, bars.right, 0);
             return insets;
         });
 
         initRecyclerView();
         initAddButton();
+        NavigationHelper.setUp(this, findViewById(R.id.bottomNav), R.id.nav_pantry);
     }
 
     /**

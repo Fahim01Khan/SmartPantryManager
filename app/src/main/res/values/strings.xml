@@ -42,4 +42,8 @@
     <string name="delete">Delete</string>
     <string name="item_deleted">%1$s deleted</string>
     <string name="error_deleting_item">Could not delete the item. Please try again.</string>
+
+    <!-- Navigation -->
+    <string name="nav_pantry">Pantry</string>
+    <string name="nav_recipes">Recipes</string>
 </resources>
