@@ -46,4 +46,23 @@
     <!-- Navigation -->
     <string name="nav_pantry">Pantry</string>
     <string name="nav_recipes">Recipes</string>
+
+    <!-- Suggested recipes -->
+    <string name="title_suggestions">Suggested Recipes</string>
+    <string name="suggestions_subtitle">Recipes you can make right now with what\'s in your pantry</string>
+    <string name="empty_suggestions">No recipes match your pantry yet. Add more ingredients or update your quantities.</string>
+    <string name="empty_suggestions_no_pantry">Your pantry is empty. Add some ingredients to see what you can cook.</string>
+    <string name="error_loading_recipes">Could not load recipes. Please try again.</string>
+
+    <plurals name="ingredient_count">
+        <item quantity="one">%d ingredient</item>
+        <item quantity="other">%d ingredients</item>
+    </plurals>
+
+    <!-- Recipe detail -->
+    <string name="title_recipe">Recipe</string>
+    <string name="heading_ingredients">Ingredients</string>
+    <string name="heading_method">Method</string>
+    <string name="back">Back</string>
+    <string name="error_recipe_not_found">That recipe could not be found.</string>
 </resources>

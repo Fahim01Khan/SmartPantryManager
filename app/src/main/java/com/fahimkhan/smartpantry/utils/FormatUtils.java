@@ -46,4 +46,20 @@ public final class FormatUtils {
             return storedDate;   // Fall back to the raw value rather than crashing
         }
     }
+
+    /** Formats one recipe ingredient for display, e.g. "Egg – 3" or "Milk – 50 ml". */
+    public static String formatIngredientLine(String name, double quantity, String unit) {
+        String amount = Units.COUNT.equals(unit)
+                ? formatQuantity(quantity)          // "Egg – 3" reads better than "Egg – 3 units"
+                : formatAmount(quantity, unit);
+        return capitalise(name) + " – " + amount;
+    }
+
+    /** Capitalises the first letter: "egg" becomes "Egg". */
+    private static String capitalise(String text) {
+        if (text == null || text.isEmpty()) {
+            return text;
+        }
+        return text.substring(0, 1).toUpperCase(Locale.getDefault()) + text.substring(1);
+    }
 }
