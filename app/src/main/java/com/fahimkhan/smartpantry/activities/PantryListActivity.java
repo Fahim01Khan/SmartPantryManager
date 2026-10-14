@@ -50,11 +50,13 @@ public class PantryListActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_pantry_list);
+        // Root: top inset only. Content: side insets. Nav bar: full width; pads its own bottom.
+        View content = findViewById(R.id.pantryContent);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets bars = insets.getInsets(
                     WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
-            // Bottom is 0: the BottomNavigationView pads itself above the gesture bar
-            v.setPadding(bars.left, bars.top, bars.right, 0);
+            v.setPadding(0, bars.top, 0, 0);
+            content.setPadding(bars.left, 0, bars.right, 0);
             return insets;
         });
 

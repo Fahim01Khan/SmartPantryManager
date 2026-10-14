@@ -40,6 +40,11 @@ public final class NavigationHelper {
             // Reuse an existing copy of the screen instead of stacking duplicates
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             activity.startActivity(intent);
+            // Pantry is the home tab: leaving any other tab closes it, so Back from
+            // Recipes or Settings always returns to Pantry, and Back from Pantry exits
+            if (currentItemId != R.id.nav_pantry) {
+                activity.finish();
+            }
             // false: this screen's bar keeps highlighting itself; the new screen highlights its own tab
             return false;
         });

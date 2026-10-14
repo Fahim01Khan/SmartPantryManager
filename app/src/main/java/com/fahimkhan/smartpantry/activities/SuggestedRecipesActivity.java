@@ -46,10 +46,13 @@ public class SuggestedRecipesActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_suggested_recipes);
+        // Root: top inset only. Content: side insets. Nav bar: full width; pads its own bottom.
+        View content = findViewById(R.id.recipesContent);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets bars = insets.getInsets(
                     WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.displayCutout());
-            v.setPadding(bars.left, bars.top, bars.right, 0);   // Bottom handled by the nav bar
+            v.setPadding(0, bars.top, 0, 0);
+            content.setPadding(bars.left, 0, bars.right, 0);
             return insets;
         });
 
