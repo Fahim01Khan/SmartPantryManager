@@ -81,4 +81,13 @@
         <item quantity="one">Warn me %d day before an item expires</item>
         <item quantity="other">Warn me %d days before an item expires</item>
     </plurals>
+
+    <!-- Expiry display -->
+    <string name="expiry_expired">Expired %1$s</string>
+    <string name="expiry_soon">Expires soon: %1$s</string>
+
+    <plurals name="expiry_banner">
+        <item quantity="one">⚠ %d item has expired or is expiring soon</item>
+        <item quantity="other">⚠ %d items have expired or are expiring soon</item>
+    </plurals>
 </resources>

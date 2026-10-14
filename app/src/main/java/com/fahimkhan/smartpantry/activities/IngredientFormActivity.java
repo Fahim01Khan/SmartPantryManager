@@ -22,6 +22,7 @@ import com.fahimkhan.smartpantry.adapters.NoFilterArrayAdapter;
 import com.fahimkhan.smartpantry.database.PantryDataSource;
 import com.fahimkhan.smartpantry.models.PantryItem;
 import com.fahimkhan.smartpantry.utils.FormatUtils;
+import com.fahimkhan.smartpantry.utils.SettingsManager;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -88,6 +89,8 @@ public class IngredientFormActivity extends AppCompatActivity {
         } else if (isEditMode()) {
             // First creation in Edit mode: fill the form from the database
             loadItemForEditing();
+        } else {
+            applyDefaultUnit();   // Add mode, first creation: pre-select the user's preferred unit
         }
         updateExpiryDisplay();
     }
@@ -113,6 +116,14 @@ public class IngredientFormActivity extends AppCompatActivity {
 
     private boolean isEditMode() {
         return editingItemId != NO_ITEM;
+    }
+
+    /** Pre-selects the default unit from Settings, if one is set. */
+    private void applyDefaultUnit() {
+        String defaultUnit = SettingsManager.getDefaultUnit(this);
+        if (validUnits.contains(defaultUnit)) {
+            autoCompleteUnit.setText(defaultUnit, false);
+        }
     }
 
     // ---------- Setup ----------

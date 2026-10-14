@@ -21,7 +21,9 @@ import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.adapters.PantryAdapter;
 import com.fahimkhan.smartpantry.database.PantryDataSource;
 import com.fahimkhan.smartpantry.models.PantryItem;
+import com.fahimkhan.smartpantry.utils.ExpiryChecker;
 import com.fahimkhan.smartpantry.utils.NavigationHelper;
+import com.fahimkhan.smartpantry.utils.SettingsManager;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -39,6 +41,7 @@ public class PantryListActivity extends AppCompatActivity
 
     private RecyclerView recyclerPantry;
     private TextView textEmptyPantry;
+    private TextView textExpiryBanner;
     private PantryAdapter adapter;
     private AlertDialog deleteDialog;
 
@@ -87,6 +90,8 @@ public class PantryListActivity extends AppCompatActivity
         recyclerPantry.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PantryAdapter(new ArrayList<>(), this);
         recyclerPantry.setAdapter(adapter);
+
+        textExpiryBanner = findViewById(R.id.textExpiryBanner);
     }
 
     private void initAddButton() {
@@ -110,7 +115,12 @@ public class PantryListActivity extends AppCompatActivity
             dataSource.close();
         }
 
+        // Settings may have changed on the Settings screen, so read them on every load
+        boolean alertsEnabled = SettingsManager.isExpiryAlertEnabled(this);
+        int warningDays = SettingsManager.getExpiryWarningDays(this);
+        adapter.setExpirySettings(alertsEnabled, warningDays);
         adapter.setItems(items);
+        updateExpiryBanner(items, alertsEnabled, warningDays);
 
         boolean isEmpty = items.isEmpty();
         textEmptyPantry.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
@@ -156,6 +166,29 @@ public class PantryListActivity extends AppCompatActivity
             loadPantryItems();   // Refreshes the list and shows the empty state if needed
         } else {
             Toast.makeText(this, R.string.error_deleting_item, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /** Shows a count of expired and expiring items, if alerts are on and there are any. */
+    private void updateExpiryBanner(List<PantryItem> items, boolean alertsEnabled, int warningDays) {
+        int count = 0;
+        if (alertsEnabled) {
+            String today = ExpiryChecker.today();
+            for (PantryItem item : items) {
+                ExpiryChecker.Status status =
+                        ExpiryChecker.statusOf(item.getExpiryDate(), today, warningDays);
+                if (status == ExpiryChecker.Status.EXPIRED
+                        || status == ExpiryChecker.Status.EXPIRING_SOON) {
+                    count++;
+                }
+            }
+        }
+        if (count > 0) {
+            textExpiryBanner.setText(
+                    getResources().getQuantityString(R.plurals.expiry_banner, count, count));
+            textExpiryBanner.setVisibility(View.VISIBLE);
+        } else {
+            textExpiryBanner.setVisibility(View.GONE);
         }
     }
 }

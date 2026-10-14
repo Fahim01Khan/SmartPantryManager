@@ -19,6 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+    android:id="@+id/textExpiryBanner"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginBottom="8dp"
+    android:background="?attr/colorErrorContainer"
+    android:padding="12dp"
+    android:textColor="?attr/colorOnErrorContainer"
+    android:textSize="14sp"
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/textPantryTitle" />
+
     <!-- Bottom padding + clipToPadding=false stops the FAB covering the last row -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerPantry"
@@ -31,7 +46,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textPantryTitle" />
+        app:layout_constraintTop_toBottomOf="@id/textExpiryBanner" />
 
     <TextView
         android:id="@+id/textEmptyPantry"
@@ -45,7 +60,7 @@
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textPantryTitle" />
+        app:layout_constraintTop_toBottomOf="@id/textExpiryBanner" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddItem"

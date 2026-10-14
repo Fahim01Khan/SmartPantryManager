@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.content.Context;
+import android.content.res.ColorStateList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.models.PantryItem;
 import com.fahimkhan.smartpantry.utils.FormatUtils;
+import com.fahimkhan.smartpantry.utils.ExpiryChecker;
+import com.google.android.material.color.MaterialColors;
 
 import java.util.List;
 
@@ -30,6 +34,9 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
     private final List<PantryItem> items;
     private final OnPantryItemActionListener listener;
+    private boolean expiryAlertsEnabled;
+    private int warningDays;
+    private String today;
 
     public PantryAdapter(List<PantryItem> items, OnPantryItemActionListener listener) {
         this.items = items;
@@ -55,10 +62,24 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
 
         // Both branches must set visibility: a recycled row may still be
         // showing the previous item's expiry date.
+        // Every branch sets both text AND colour: a recycled row may still be red from its last item
         if (item.hasExpiryDate()) {
-            String expiry = FormatUtils.formatExpiryDate(item.getExpiryDate());
-            holder.textExpiry.setText(
-                    holder.itemView.getContext().getString(R.string.expires_on, expiry));
+            Context context = holder.itemView.getContext();
+            String date = FormatUtils.formatExpiryDate(item.getExpiryDate());
+            ExpiryChecker.Status status = expiryAlertsEnabled
+                    ? ExpiryChecker.statusOf(item.getExpiryDate(), today, warningDays)
+                    : ExpiryChecker.Status.FINE;
+
+            if (status == ExpiryChecker.Status.EXPIRED || status == ExpiryChecker.Status.EXPIRING_SOON) {
+                int message = status == ExpiryChecker.Status.EXPIRED
+                        ? R.string.expiry_expired : R.string.expiry_soon;
+                holder.textExpiry.setText(context.getString(message, date));
+                holder.textExpiry.setTextColor(MaterialColors.getColor(
+                        holder.textExpiry, com.google.android.material.R.attr.colorError));
+            } else {
+                holder.textExpiry.setText(context.getString(R.string.expires_on, date));
+                holder.textExpiry.setTextColor(holder.defaultExpiryColors);
+            }
             holder.textExpiry.setVisibility(View.VISIBLE);
         } else {
             holder.textExpiry.setVisibility(View.GONE);
@@ -80,6 +101,13 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         notifyDataSetChanged();
     }
 
+    /** Applies the user's expiry settings; call before setItems so rows are drawn with them. */
+    public void setExpirySettings(boolean alertsEnabled, int warningDays) {
+        this.expiryAlertsEnabled = alertsEnabled;
+        this.warningDays = warningDays;
+        this.today = ExpiryChecker.today();
+    }
+
     /** Holds references to one row's views so findViewById runs once per row, not per bind. */
     static class PantryViewHolder extends RecyclerView.ViewHolder {
         final TextView textName;
@@ -87,6 +115,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         final TextView textExpiry;
         final ImageButton buttonEdit;
         final ImageButton buttonDelete;
+        final ColorStateList defaultExpiryColors;
 
         PantryViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +124,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             textExpiry = itemView.findViewById(R.id.textItemExpiry);
             buttonEdit = itemView.findViewById(R.id.buttonEditItem);
             buttonDelete = itemView.findViewById(R.id.buttonDeleteItem);
+            defaultExpiryColors = textExpiry.getTextColors();
         }
     }
 }
