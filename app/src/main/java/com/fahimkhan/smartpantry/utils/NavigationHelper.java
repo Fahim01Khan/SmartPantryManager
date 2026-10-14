@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.activities.PantryListActivity;
+import com.fahimkhan.smartpantry.activities.SettingsActivity;
 import com.fahimkhan.smartpantry.activities.SuggestedRecipesActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -51,6 +52,9 @@ public final class NavigationHelper {
         }
         if (itemId == R.id.nav_recipes) {
             return SuggestedRecipesActivity.class;
+        }
+        if (itemId == R.id.nav_settings) {
+            return SettingsActivity.class;
         }
         return null;
     }

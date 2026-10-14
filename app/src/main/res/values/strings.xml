@@ -65,4 +65,20 @@
     <string name="heading_method">Method</string>
     <string name="back">Back</string>
     <string name="error_recipe_not_found">That recipe could not be found.</string>
+
+    <!-- Settings -->
+    <string name="nav_settings">Settings</string>
+    <string name="title_settings">Settings</string>
+    <string name="heading_expiry_alerts">Expiry alerts</string>
+    <string name="setting_expiry_alerts">Highlight items that are expired or expiring soon</string>
+    <string name="setting_expiry_days_description">Days before expiry to show a warning</string>
+    <string name="heading_adding_ingredients">Adding ingredients</string>
+    <string name="setting_default_unit">Default unit</string>
+    <string name="default_unit_none">None</string>
+    <string name="setting_default_unit_help">Pre-selects this unit when you add a new ingredient. Choose None to pick a unit each time.</string>
+
+    <plurals name="expiry_days_label">
+        <item quantity="one">Warn me %d day before an item expires</item>
+        <item quantity="other">Warn me %d days before an item expires</item>
+    </plurals>
 </resources>
