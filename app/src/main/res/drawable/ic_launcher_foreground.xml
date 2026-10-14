@@ -1,30 +1,30 @@
+<!--
+  ~ Copyright (C) 2026 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:aapt="http://schemas.android.com/aapt"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <path android:pathData="M31,63.928c0,0 6.4,-11 12.1,-13.1c7.2,-2.6 26,-1.4 26,-1.4l38.1,38.1L107,108.928l-32,-1L31,63.928z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:endX="85.84757"
-                android:endY="92.4963"
-                android:startX="42.9492"
-                android:startY="49.59793"
-                android:type="linear">
-                <item
-                    android:color="#44000000"
-                    android:offset="0.0" />
-                <item
-                    android:color="#00000000"
-                    android:offset="1.0" />
-            </gradient>
-        </aapt:attr>
-    </path>
+    android:viewportWidth="960"
+    android:viewportHeight="960"
+    android:tint="#FFFFFF">
+  <group android:scaleX="0.4176"
+      android:scaleY="0.4176"
+      android:translateX="279.552"
+      android:translateY="279.552">
     <path
-        android:fillColor="#FFFFFF"
-        android:fillType="nonZero"
-        android:pathData="M65.3,45.828l3.8,-6.6c0.2,-0.4 0.1,-0.9 -0.3,-1.1c-0.4,-0.2 -0.9,-0.1 -1.1,0.3l-3.9,6.7c-6.3,-2.8 -13.4,-2.8 -19.7,0l-3.9,-6.7c-0.2,-0.4 -0.7,-0.5 -1.1,-0.3C38.8,38.328 38.7,38.828 38.9,39.228l3.8,6.6C36.2,49.428 31.7,56.028 31,63.928h46C76.3,56.028 71.8,49.428 65.3,45.828zM43.4,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2c-0.3,-0.7 -0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C45.3,56.528 44.5,57.328 43.4,57.328L43.4,57.328zM64.6,57.328c-0.8,0 -1.5,-0.5 -1.8,-1.2s-0.1,-1.5 0.4,-2.1c0.5,-0.5 1.4,-0.7 2.1,-0.4c0.7,0.3 1.2,1 1.2,1.8C66.5,56.528 65.6,57.328 64.6,57.328L64.6,57.328z"
-        android:strokeWidth="1"
-        android:strokeColor="#00000000" />
+        android:fillColor="@android:color/white"
+        android:pathData="M296,460Q296,460 296,460Q296,460 296,460L296,460L296,460L296,460L296,460Q296,460 296,460Q296,460 296,460Q296,460 296,460Q296,460 296,460ZM640,880Q540,880 470,810Q400,740 400,640Q400,540 470,470Q540,400 640,400Q740,400 810,470Q880,540 880,640Q880,740 810,810Q740,880 640,880ZM640,800Q706,800 753,753Q800,706 800,640Q800,574 753,527Q706,480 640,480Q574,480 527,527Q480,574 480,640Q480,706 527,753Q574,800 640,800ZM160,800Q127,800 103.5,776.5Q80,753 80,720L80,416Q80,408 81.5,400Q83,392 86,384L166,200L160,200Q143,200 131.5,188.5Q120,177 120,160L120,120Q120,103 131.5,91.5Q143,80 160,80L440,80Q457,80 468.5,91.5Q480,103 480,120L480,160Q480,177 468.5,188.5Q457,200 440,200L434,200L500,352Q481,362 464,373Q447,384 432,398L348,200L252,200L160,416L160,720Q160,720 160,720Q160,720 160,720L330,720Q335,741 343.5,761.5Q352,782 364,800L160,800ZM640,360Q598,360 569,331Q540,302 540,260Q540,218 569,189Q598,160 640,160L640,360Q640,318 669,289Q698,260 740,260Q782,260 811,289Q840,318 840,360L640,360ZM640,640Q640,640 640,640Q640,640 640,640Q640,640 640,640Q640,640 640,640Q640,640 640,640Q640,640 640,640Q640,640 640,640Q640,640 640,640Z"/>
+  </group>
 </vector>
