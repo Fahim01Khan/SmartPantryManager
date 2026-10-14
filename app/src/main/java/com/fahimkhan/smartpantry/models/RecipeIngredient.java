@@ -24,18 +24,43 @@ public class RecipeIngredient {
         this.unit = unit;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public int getRecipeId() { return recipeId; }
-    public void setRecipeId(int recipeId) { this.recipeId = recipeId; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public int getRecipeId() {
+        return recipeId;
+    }
 
-    public double getQuantity() { return quantity; }
-    public void setQuantity(double quantity) { this.quantity = quantity; }
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
 
-    public String getUnit() { return unit; }
-    public void setUnit(String unit) { this.unit = unit; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 }

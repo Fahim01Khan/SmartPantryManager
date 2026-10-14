@@ -75,7 +75,9 @@ public class SuggestedRecipesActivity extends AppCompatActivity
         loadSuggestions();
     }
 
-    /** Loads recipes and pantry, applies the strict matcher, and updates the screen. */
+    /**
+     * Loads recipes and pantry, applies the strict matcher, and updates the screen.
+     */
     private void loadSuggestions() {
         RecipeDataSource recipeSource = new RecipeDataSource(this);
         PantryDataSource pantrySource = new PantryDataSource(this);
@@ -109,7 +111,9 @@ public class SuggestedRecipesActivity extends AppCompatActivity
         recyclerSuggestions.setVisibility(noMatches ? View.GONE : View.VISIBLE);
     }
 
-    /** Opens the detail screen, passing only the recipe's id. */
+    /**
+     * Opens the detail screen, passing only the recipe's id.
+     */
     @Override
     public void onRecipeClick(Recipe recipe) {
         Intent intent = new Intent(this, RecipeDetailActivity.class);

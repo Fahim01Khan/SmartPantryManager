@@ -26,20 +26,42 @@ public class Recipe {
         this.ingredients = new ArrayList<>();
     }
 
-    /** Adds one required ingredient to this recipe. */
+    /**
+     * Adds one required ingredient to this recipe.
+     */
     public void addIngredient(RecipeIngredient ingredient) {
         ingredients.add(ingredient);
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public int getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public String getInstructions() { return instructions; }
-    public void setInstructions(String instructions) { this.instructions = instructions; }
+    public String getName() {
+        return name;
+    }
 
-    public List<RecipeIngredient> getIngredients() { return ingredients; }
-    public void setIngredients(List<RecipeIngredient> ingredients) { this.ingredients = ingredients; }
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getInstructions() {
+        return instructions;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public List<RecipeIngredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
+    }
 }

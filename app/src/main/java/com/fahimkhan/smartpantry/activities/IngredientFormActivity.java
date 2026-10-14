@@ -38,7 +38,9 @@ import java.util.Locale;
  */
 public class IngredientFormActivity extends AppCompatActivity {
 
-    /** Intent extra key: the id of the pantry item to edit. */
+    /**
+     * Intent extra key: the id of the pantry item to edit.
+     */
     public static final String EXTRA_ITEM_ID = "com.fahimkhan.smartpantry.EXTRA_ITEM_ID";
 
     private static final String TAG = "IngredientFormActivity";
@@ -81,7 +83,7 @@ public class IngredientFormActivity extends AppCompatActivity {
         editingItemId = getIntent().getIntExtra(EXTRA_ITEM_ID, NO_ITEM);
         TextView textTitle = findViewById(R.id.textFormTitle);
         textTitle.setText(isEditMode() ? R.string.title_edit_ingredient
-                                       : R.string.title_add_ingredient);
+                : R.string.title_add_ingredient);
 
         if (savedInstanceState != null) {
             // Recreated (e.g. after rotation): restore the date and keep the user's edits
@@ -95,14 +97,18 @@ public class IngredientFormActivity extends AppCompatActivity {
         updateExpiryDisplay();
     }
 
-    /** Saves values Android will not restore automatically before the Activity is destroyed. */
+    /**
+     * Saves values Android will not restore automatically before the Activity is destroyed.
+     */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_EXPIRY_DATE, selectedExpiryDate);
     }
 
-    /** Closes any open popups so they are not leaked when the Activity is destroyed. */
+    /**
+     * Closes any open popups so they are not leaked when the Activity is destroyed.
+     */
     @Override
     protected void onDestroy() {
         if (datePickerDialog != null && datePickerDialog.isShowing()) {
@@ -118,7 +124,9 @@ public class IngredientFormActivity extends AppCompatActivity {
         return editingItemId != NO_ITEM;
     }
 
-    /** Pre-selects the default unit from Settings, if one is set. */
+    /**
+     * Pre-selects the default unit from Settings, if one is set.
+     */
     private void applyDefaultUnit() {
         String defaultUnit = SettingsManager.getDefaultUnit(this);
         if (validUnits.contains(defaultUnit)) {
@@ -139,7 +147,9 @@ public class IngredientFormActivity extends AppCompatActivity {
         buttonClearDate = findViewById(R.id.buttonClearDate);
     }
 
-    /** Attaches the unit options to the dropdown using an adapter that never filters. */
+    /**
+     * Attaches the unit options to the dropdown using an adapter that never filters.
+     */
     private void initUnitDropdown() {
         validUnits = Arrays.asList(getResources().getStringArray(R.array.units));
         NoFilterArrayAdapter<String> unitAdapter = new NoFilterArrayAdapter<>(
@@ -163,7 +173,9 @@ public class IngredientFormActivity extends AppCompatActivity {
 
     // ---------- Edit mode ----------
 
-    /** Loads the item being edited and fills every field with its current values. */
+    /**
+     * Loads the item being edited and fills every field with its current values.
+     */
     private void loadItemForEditing() {
         PantryDataSource dataSource = new PantryDataSource(this);
         try {
@@ -230,6 +242,7 @@ public class IngredientFormActivity extends AppCompatActivity {
 
     /**
      * Checks every field and shows all errors at once.
+     *
      * @return a PantryItem built from the form, or null if any field is invalid
      */
     private PantryItem readValidatedItem() {
@@ -283,7 +296,9 @@ public class IngredientFormActivity extends AppCompatActivity {
         return new PantryItem(editingItemId, name, quantity, unit, selectedExpiryDate);
     }
 
-    /** Validates, checks for duplicates, then inserts or updates the item. */
+    /**
+     * Validates, checks for duplicates, then inserts or updates the item.
+     */
     private void saveItem() {
         PantryItem item = readValidatedItem();
         if (item == null) {
@@ -320,7 +335,9 @@ public class IngredientFormActivity extends AppCompatActivity {
         }
     }
 
-    /** Returns the trimmed text of a field, never null. */
+    /**
+     * Returns the trimmed text of a field, never null.
+     */
     private String textOf(EditText field) {
         return field.getText() == null ? "" : field.getText().toString().trim();
     }

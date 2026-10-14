@@ -1,20 +1,20 @@
 package com.fahimkhan.smartpantry.adapters;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.content.Context;
-import android.content.res.ColorStateList;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fahimkhan.smartpantry.R;
 import com.fahimkhan.smartpantry.models.PantryItem;
-import com.fahimkhan.smartpantry.utils.FormatUtils;
 import com.fahimkhan.smartpantry.utils.ExpiryChecker;
+import com.fahimkhan.smartpantry.utils.FormatUtils;
 import com.google.android.material.color.MaterialColors;
 
 import java.util.List;
@@ -26,9 +26,12 @@ import java.util.List;
  */
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryViewHolder> {
 
-    /** Implemented by the Activity to respond to the row's buttons. */
+    /**
+     * Implemented by the Activity to respond to the row's buttons.
+     */
     public interface OnPantryItemActionListener {
         void onEditItem(PantryItem item);
+
         void onDeleteItem(PantryItem item);
     }
 
@@ -43,7 +46,9 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         this.listener = listener;
     }
 
-    /** Builds a new, empty row from item_pantry.xml. */
+    /**
+     * Builds a new, empty row from item_pantry.xml.
+     */
     @NonNull
     @Override
     public PantryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,7 +57,9 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         return new PantryViewHolder(view);
     }
 
-    /** Fills an existing (possibly recycled) row with one item's data. */
+    /**
+     * Fills an existing (possibly recycled) row with one item's data.
+     */
     @Override
     public void onBindViewHolder(@NonNull PantryViewHolder holder, int position) {
         PantryItem item = items.get(position);
@@ -60,9 +67,8 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         holder.textName.setText(item.getName());
         holder.textAmount.setText(FormatUtils.formatAmount(item.getQuantity(), item.getUnit()));
 
-        // Both branches must set visibility: a recycled row may still be
-        // showing the previous item's expiry date.
-        // Every branch sets both text AND colour: a recycled row may still be red from its last item
+        // Every branch sets visibility, text AND colour: a recycled row may still be
+        // showing the previous item's expiry date, possibly in red
         if (item.hasExpiryDate()) {
             Context context = holder.itemView.getContext();
             String date = FormatUtils.formatExpiryDate(item.getExpiryDate());
@@ -94,22 +100,28 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         return items.size();
     }
 
-    /** Replaces the displayed list, e.g. after the pantry is reloaded from the database. */
+    /**
+     * Replaces the displayed list, e.g. after the pantry is reloaded from the database.
+     */
     public void setItems(List<PantryItem> newItems) {
         items.clear();
         items.addAll(newItems);
         notifyDataSetChanged();
     }
 
-    /** Applies the user's expiry settings; call before setItems so rows are drawn with them. */
+    /**
+     * Applies the user's expiry settings; call before setItems so rows are drawn with them.
+     */
     public void setExpirySettings(boolean alertsEnabled, int warningDays) {
         this.expiryAlertsEnabled = alertsEnabled;
         this.warningDays = warningDays;
         this.today = ExpiryChecker.today();
     }
 
-    /** Holds references to one row's views so findViewById runs once per row, not per bind. */
-    static class PantryViewHolder extends RecyclerView.ViewHolder {
+    /**
+     * Holds references to one row's views so findViewById runs once per row, not per bind.
+     */
+    public static class PantryViewHolder extends RecyclerView.ViewHolder {
         final TextView textName;
         final TextView textAmount;
         final TextView textExpiry;

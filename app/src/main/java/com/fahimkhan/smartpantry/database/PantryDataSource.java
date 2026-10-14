@@ -1,6 +1,11 @@
 package com.fahimkhan.smartpantry.database;
 
-import static com.fahimkhan.smartpantry.database.PantryDBHelper.*;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_PANTRY_EXPIRY;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_PANTRY_ID;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_PANTRY_NAME;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_PANTRY_QUANTITY;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_PANTRY_UNIT;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.TABLE_PANTRY;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,12 +35,16 @@ public class PantryDataSource {
         dbHelper = new PantryDBHelper(context);
     }
 
-    /** Opens the database for reading and writing. Call before any other method. */
+    /**
+     * Opens the database for reading and writing. Call before any other method.
+     */
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
 
-    /** Closes the database. Call when finished, ideally in a finally block. */
+    /**
+     * Closes the database. Call when finished, ideally in a finally block.
+     */
     public void close() {
         dbHelper.close();
     }
@@ -45,6 +54,7 @@ public class PantryDataSource {
     /**
      * Inserts a new pantry item. On success, the item's id is updated to
      * the id the database assigned.
+     *
      * @return true if the row was inserted
      */
     public boolean insertPantryItem(PantryItem item) {
@@ -58,7 +68,9 @@ public class PantryDataSource {
 
     // READ
 
-    /** Returns every pantry item, sorted alphabetically (ignoring capitals). */
+    /**
+     * Returns every pantry item, sorted alphabetically (ignoring capitals).
+     */
     public List<PantryItem> getAllPantryItems() {
         List<PantryItem> items = new ArrayList<>();
         try (Cursor cursor = database.query(TABLE_PANTRY, null, null, null,
@@ -73,6 +85,7 @@ public class PantryDataSource {
     /**
      * Finds a pantry item that is the same ingredient as the given name, using the
      * same normalisation as recipe matching: "Eggs" matches "egg", "Cake flour" matches "Flour".
+     *
      * @return the matching item, or null if there is none
      */
     public PantryItem findPantryItemByName(String name) {
@@ -85,7 +98,9 @@ public class PantryDataSource {
         return null;
     }
 
-    /** Returns the pantry item with the given id, or null if it does not exist. */
+    /**
+     * Returns the pantry item with the given id, or null if it does not exist.
+     */
     public PantryItem getPantryItemById(int id) {
         try (Cursor cursor = database.query(TABLE_PANTRY, null,
                 COL_PANTRY_ID + " = ?", new String[]{String.valueOf(id)},
@@ -101,6 +116,7 @@ public class PantryDataSource {
 
     /**
      * Saves changes to an existing pantry item, matched by its id.
+     *
      * @return true if exactly one row was updated
      */
     public boolean updatePantryItem(PantryItem item) {
@@ -119,6 +135,7 @@ public class PantryDataSource {
 
     /**
      * Deletes the pantry item with the given id.
+     *
      * @return true if exactly one row was deleted
      */
     public boolean deletePantryItem(int id) {
@@ -129,7 +146,9 @@ public class PantryDataSource {
 
     // Helpers
 
-    /** Packs a PantryItem into column/value pairs. The id is left out; SQLite assigns it. */
+    /**
+     * Packs a PantryItem into column/value pairs. The id is left out; SQLite assigns it.
+     */
     private ContentValues toContentValues(PantryItem item) {
         ContentValues values = new ContentValues();
         values.put(COL_PANTRY_NAME, item.getName());
@@ -143,7 +162,9 @@ public class PantryDataSource {
         return values;
     }
 
-    /** Builds a PantryItem from the row the cursor is currently pointing at. */
+    /**
+     * Builds a PantryItem from the row the cursor is currently pointing at.
+     */
     private PantryItem cursorToPantryItem(Cursor cursor) {
         int expiryIndex = cursor.getColumnIndexOrThrow(COL_PANTRY_EXPIRY);
         return new PantryItem(

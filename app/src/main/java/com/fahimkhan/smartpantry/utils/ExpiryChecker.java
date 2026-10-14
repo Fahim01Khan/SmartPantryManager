@@ -13,8 +13,10 @@ import java.util.TimeZone;
  */
 public final class ExpiryChecker {
 
-    /** How an item's expiry date relates to today. */
-    public enum Status { NONE, FINE, EXPIRING_SOON, EXPIRED }
+    /**
+     * How an item's expiry date relates to today.
+     */
+    public enum Status {NONE, FINE, EXPIRING_SOON, EXPIRED}
 
     private static final String DATE_PATTERN = "yyyy-MM-dd";
     private static final long MILLIS_PER_DAY = 24L * 60 * 60 * 1000;
@@ -23,7 +25,9 @@ public final class ExpiryChecker {
         // Static methods only
     }
 
-    /** Today's date in stored format, using the phone's own time zone. */
+    /**
+     * Today's date in stored format, using the phone's own time zone.
+     */
     public static String today() {
         return new SimpleDateFormat(DATE_PATTERN, Locale.US).format(new Date());
     }
@@ -48,7 +52,9 @@ public final class ExpiryChecker {
         }
     }
 
-    /** Classifies an expiry date against today and the user's warning window. */
+    /**
+     * Classifies an expiry date against today and the user's warning window.
+     */
     public static Status statusOf(String expiryDate, String today, int warningDays) {
         if (expiryDate == null || expiryDate.isEmpty()) {
             return Status.NONE;

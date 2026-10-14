@@ -18,7 +18,9 @@ public final class FormatUtils {
         // Prevents instantiation
     }
 
-    /** Shows whole numbers without a decimal point: 6.0 becomes "6", 0.5 stays "0.5". */
+    /**
+     * Shows whole numbers without a decimal point: 6.0 becomes "6", 0.5 stays "0.5".
+     */
     public static String formatQuantity(double quantity) {
         if (quantity == Math.rint(quantity)) {
             return String.valueOf((long) quantity);
@@ -26,7 +28,9 @@ public final class FormatUtils {
         return String.valueOf(quantity);
     }
 
-    /** Combines a quantity and unit, e.g. "500 g", "1 unit", "6 units". */
+    /**
+     * Combines a quantity and unit, e.g. "500 g", "1 unit", "6 units".
+     */
     public static String formatAmount(double quantity, String unit) {
         String amount = formatQuantity(quantity);
         if ("unit".equals(unit)) {
@@ -35,7 +39,9 @@ public final class FormatUtils {
         return amount + " " + unit;
     }
 
-    /** Converts a stored date ("2026-10-05") into display form ("05 Oct 2026"). */
+    /**
+     * Converts a stored date ("2026-10-05") into display form ("05 Oct 2026").
+     */
     public static String formatExpiryDate(String storedDate) {
         try {
             SimpleDateFormat input = new SimpleDateFormat(STORED_DATE_PATTERN, Locale.getDefault());
@@ -47,7 +53,9 @@ public final class FormatUtils {
         }
     }
 
-    /** Formats one recipe ingredient for display, e.g. "Egg – 3" or "Milk – 50 ml". */
+    /**
+     * Formats one recipe ingredient for display, e.g. "Egg – 3" or "Milk – 50 ml".
+     */
     public static String formatIngredientLine(String name, double quantity, String unit) {
         String amount = Units.COUNT.equals(unit)
                 ? formatQuantity(quantity)          // "Egg – 3" reads better than "Egg – 3 units"
@@ -55,7 +63,9 @@ public final class FormatUtils {
         return capitalise(name) + " – " + amount;
     }
 
-    /** Capitalises the first letter: "egg" becomes "Egg". */
+    /**
+     * Capitalises the first letter: "egg" becomes "Egg".
+     */
     private static String capitalise(String text) {
         if (text == null || text.isEmpty()) {
             return text;

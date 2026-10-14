@@ -66,14 +66,18 @@ public class PantryDBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    /** Runs every time the database is opened; SQLite needs foreign keys switched on. */
+    /**
+     * Runs every time the database is opened; SQLite needs foreign keys switched on.
+     */
     @Override
     public void onConfigure(SQLiteDatabase db) {
         super.onConfigure(db);
         db.setForeignKeyConstraintsEnabled(true);
     }
 
-    /** Runs once, when the database file is first created. */
+    /**
+     * Runs once, when the database file is first created.
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_PANTRY);

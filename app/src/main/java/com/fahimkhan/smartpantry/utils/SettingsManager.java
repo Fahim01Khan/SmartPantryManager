@@ -39,7 +39,9 @@ public final class SettingsManager {
         prefs(context).edit().putBoolean(KEY_EXPIRY_ALERTS, enabled).apply();
     }
 
-    /** Days before expiry at which an item counts as "expiring soon", kept within 1–7. */
+    /**
+     * Days before expiry at which an item counts as "expiring soon", kept within 1–7.
+     */
     public static int getExpiryWarningDays(Context context) {
         int days = prefs(context).getInt(KEY_EXPIRY_DAYS, DEFAULT_EXPIRY_DAYS);
         return Math.max(MIN_EXPIRY_DAYS, Math.min(MAX_EXPIRY_DAYS, days));
@@ -51,7 +53,9 @@ public final class SettingsManager {
 
     // ----- Default unit -----
 
-    /** The unit to pre-select for new ingredients, or "" for none. */
+    /**
+     * The unit to pre-select for new ingredients, or "" for none.
+     */
     public static String getDefaultUnit(Context context) {
         return prefs(context).getString(KEY_DEFAULT_UNIT, NO_DEFAULT_UNIT);
     }

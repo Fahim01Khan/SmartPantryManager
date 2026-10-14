@@ -1,7 +1,16 @@
 package com.fahimkhan.smartpantry.database;
 
-import static com.fahimkhan.smartpantry.database.PantryDBHelper.*;
-import static com.fahimkhan.smartpantry.utils.Units.*;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RECIPE_INSTRUCTIONS;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RECIPE_NAME;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_NAME;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_QUANTITY;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_RECIPE_ID;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_UNIT;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.TABLE_RECIPES;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.TABLE_RECIPE_INGREDIENTS;
+import static com.fahimkhan.smartpantry.utils.Units.COUNT;
+import static com.fahimkhan.smartpantry.utils.Units.GRAM;
+import static com.fahimkhan.smartpantry.utils.Units.MILLILITRE;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -23,7 +32,9 @@ public final class DatabaseSeeder {
         // Static methods only
     }
 
-    /** Inserts all recipes and their ingredients into the given database. */
+    /**
+     * Inserts all recipes and their ingredients into the given database.
+     */
     public static void seedRecipes(SQLiteDatabase db) {
 
         // ----- Egg dishes -----
@@ -170,7 +181,9 @@ public final class DatabaseSeeder {
                 ing("sugar", 25, GRAM), ing("butter", 20, GRAM));
     }
 
-    /** Inserts one recipe, then one recipe_ingredients row per required ingredient. */
+    /**
+     * Inserts one recipe, then one recipe_ingredients row per required ingredient.
+     */
     private static void insertRecipe(SQLiteDatabase db, String name, String instructions,
                                      RecipeIngredient... ingredients) {
         ContentValues recipeValues = new ContentValues();
@@ -188,7 +201,9 @@ public final class DatabaseSeeder {
         }
     }
 
-    /** Short helper so each recipe's ingredient list stays readable. */
+    /**
+     * Short helper so each recipe's ingredient list stays readable.
+     */
     private static RecipeIngredient ing(String name, double quantity, String unit) {
         return new RecipeIngredient(-1, -1, name, quantity, unit);
     }

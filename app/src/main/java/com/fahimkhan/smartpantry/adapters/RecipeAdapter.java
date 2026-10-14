@@ -23,7 +23,9 @@ import java.util.List;
  */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
 
-    /** Implemented by the Activity to open the tapped recipe. */
+    /**
+     * Implemented by the Activity to open the tapped recipe.
+     */
     public interface OnRecipeClickListener {
         void onRecipeClick(Recipe recipe);
     }
@@ -59,7 +61,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         int count = names.size();
         String countText = context.getResources()
                 .getQuantityString(R.plurals.ingredient_count, count, count);
-        holder.textSummary.setText(countText + ": " + TextUtils.join(", ", names));
+        holder.textSummary.setText(context.getString(
+                R.string.recipe_summary, countText, TextUtils.join(", ", names)));
 
         holder.itemView.setOnClickListener(v -> listener.onRecipeClick(recipe));
     }
@@ -69,14 +72,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return recipes.size();
     }
 
-    /** Replaces the displayed recipes, e.g. after the suggestions are recalculated. */
+    /**
+     * Replaces the displayed recipes, e.g. after the suggestions are recalculated.
+     */
     public void setRecipes(List<Recipe> newRecipes) {
         recipes.clear();
         recipes.addAll(newRecipes);
         notifyDataSetChanged();
     }
 
-    static class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public static class RecipeViewHolder extends RecyclerView.ViewHolder {
         final TextView textName;
         final TextView textSummary;
 

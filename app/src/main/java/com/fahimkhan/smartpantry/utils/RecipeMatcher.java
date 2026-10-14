@@ -27,7 +27,9 @@ public final class RecipeMatcher {
         // Static methods only
     }
 
-    /** Returns only the recipes the pantry can fully satisfy, in their original order. */
+    /**
+     * Returns only the recipes the pantry can fully satisfy, in their original order.
+     */
     public static List<Recipe> findMakeableRecipes(List<Recipe> recipes, List<PantryItem> pantry) {
         Map<String, List<PantryItem>> pantryByName = groupByNormalisedName(pantry);
         List<Recipe> makeable = new ArrayList<>();
@@ -39,7 +41,9 @@ public final class RecipeMatcher {
         return makeable;
     }
 
-    /** A recipe qualifies only if every one of its ingredients passes. */
+    /**
+     * A recipe qualifies only if every one of its ingredients passes.
+     */
     private static boolean canMake(Recipe recipe, Map<String, List<PantryItem>> pantryByName) {
         if (recipe.getIngredients().isEmpty()) {
             return false;   // A recipe with no ingredients is a data error, never suggested
@@ -76,7 +80,9 @@ public final class RecipeMatcher {
         return availableAmount + TOLERANCE >= requiredAmount;
     }
 
-    /** Indexes the pantry by canonical ingredient name for fast lookup. */
+    /**
+     * Indexes the pantry by canonical ingredient name for fast lookup.
+     */
     private static Map<String, List<PantryItem>> groupByNormalisedName(List<PantryItem> pantry) {
         Map<String, List<PantryItem>> grouped = new HashMap<>();
         for (PantryItem item : pantry) {

@@ -15,13 +15,19 @@ import java.util.Set;
  */
 public final class IngredientNormaliser {
 
-    /** Plurals the general rules would get wrong. */
+    /**
+     * Plurals the general rules would get wrong.
+     */
     private static final Map<String, String> IRREGULAR_PLURALS = new HashMap<>();
 
-    /** Words that end in "s" but are already singular. */
+    /**
+     * Words that end in "s" but are already singular.
+     */
     private static final Set<String> UNCHANGED_WORDS = new HashSet<>();
 
-    /** Common alternative names, mapped to the name the recipes use. Keys are already singular. */
+    /**
+     * Common alternative names, mapped to the name the recipes use. Keys are already singular.
+     */
     private static final Map<String, String> SYNONYMS = new HashMap<>();
 
     static {
@@ -89,7 +95,9 @@ public final class IngredientNormaliser {
         return synonym != null ? synonym : singular;
     }
 
-    /** Converts one lowercase word to its singular form using common English rules. */
+    /**
+     * Converts one lowercase word to its singular form using common English rules.
+     */
     private static String singularise(String word) {
         if (word.length() <= 3 || UNCHANGED_WORDS.contains(word)) {
             return word;

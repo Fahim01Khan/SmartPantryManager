@@ -25,7 +25,9 @@ import com.google.android.material.appbar.MaterialToolbar;
  */
 public class RecipeDetailActivity extends AppCompatActivity {
 
-    /** Intent extra key: the id of the recipe to display. */
+    /**
+     * Intent extra key: the id of the recipe to display.
+     */
     public static final String EXTRA_RECIPE_ID = "com.fahimkhan.smartpantry.EXTRA_RECIPE_ID";
 
     private static final String TAG = "RecipeDetailActivity";
@@ -57,7 +59,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
         displayRecipe(recipe);
     }
 
-    /** Loads the recipe and its ingredients, or returns null if it can't be found. */
+    /**
+     * Loads the recipe and its ingredients, or returns null if it can't be found.
+     */
     private Recipe loadRecipe(int recipeId) {
         if (recipeId == NO_RECIPE) {
             return null;
@@ -74,7 +78,9 @@ public class RecipeDetailActivity extends AppCompatActivity {
         }
     }
 
-    /** Fills the screen: name, one bulleted line per ingredient, then the method. */
+    /**
+     * Fills the screen: name, one bulleted line per ingredient, then the method.
+     */
     private void displayRecipe(Recipe recipe) {
         TextView textName = findViewById(R.id.textDetailName);
         TextView textIngredients = findViewById(R.id.textDetailIngredients);

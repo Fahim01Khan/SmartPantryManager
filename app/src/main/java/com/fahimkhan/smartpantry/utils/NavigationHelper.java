@@ -21,6 +21,7 @@ public final class NavigationHelper {
 
     /**
      * Highlights the current screen and opens the chosen screen when another tab is tapped.
+     *
      * @param currentItemId the menu id of the screen calling this method
      */
     public static void setUp(Activity activity, BottomNavigationView bottomNav, int currentItemId) {
@@ -50,7 +51,9 @@ public final class NavigationHelper {
         });
     }
 
-    /** Maps a menu item to the Activity it opens. */
+    /**
+     * Maps a menu item to the Activity it opens.
+     */
     private static Class<?> targetFor(int itemId) {
         if (itemId == R.id.nav_pantry) {
             return PantryListActivity.class;

@@ -1,6 +1,15 @@
 package com.fahimkhan.smartpantry.database;
 
-import static com.fahimkhan.smartpantry.database.PantryDBHelper.*;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RECIPE_ID;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RECIPE_INSTRUCTIONS;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RECIPE_NAME;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_ID;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_NAME;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_QUANTITY;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_RECIPE_ID;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.COL_RI_UNIT;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.TABLE_RECIPES;
+import static com.fahimkhan.smartpantry.database.PantryDBHelper.TABLE_RECIPE_INGREDIENTS;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -65,7 +74,9 @@ public class RecipeDataSource {
         return new ArrayList<>(recipesById.values());
     }
 
-    /** Returns one recipe with its ingredients, or null if no recipe has that id. */
+    /**
+     * Returns one recipe with its ingredients, or null if no recipe has that id.
+     */
     public Recipe getRecipeById(int recipeId) {
         String[] args = {String.valueOf(recipeId)};
         Recipe recipe = null;

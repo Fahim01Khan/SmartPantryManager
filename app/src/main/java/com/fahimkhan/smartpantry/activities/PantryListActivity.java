@@ -75,7 +75,9 @@ public class PantryListActivity extends AppCompatActivity
         loadPantryItems();
     }
 
-    /** Closes any open dialogue so it is not leaked when the Activity is destroyed. */
+    /**
+     * Closes any open dialogue so it is not leaked when the Activity is destroyed.
+     */
     @Override
     protected void onDestroy() {
         if (deleteDialog != null && deleteDialog.isShowing()) {
@@ -84,7 +86,9 @@ public class PantryListActivity extends AppCompatActivity
         super.onDestroy();
     }
 
-    /** One-time setup: connects the RecyclerView to its LayoutManager and Adapter. */
+    /**
+     * One-time setup: connects the RecyclerView to its LayoutManager and Adapter.
+     */
     private void initRecyclerView() {
         recyclerPantry = findViewById(R.id.recyclerPantry);
         textEmptyPantry = findViewById(R.id.textEmptyPantry);
@@ -103,7 +107,9 @@ public class PantryListActivity extends AppCompatActivity
                 startActivity(new Intent(this, IngredientFormActivity.class)));
     }
 
-    /** Reads all pantry items from the database and shows the list or the empty message. */
+    /**
+     * Reads all pantry items from the database and shows the list or the empty message.
+     */
     private void loadPantryItems() {
         PantryDataSource dataSource = new PantryDataSource(this);
         List<PantryItem> items = new ArrayList<>();
@@ -144,12 +150,14 @@ public class PantryListActivity extends AppCompatActivity
         deleteDialog = new MaterialAlertDialogBuilder(this)
                 .setTitle(R.string.dialog_delete_title)
                 .setMessage(getString(R.string.dialog_delete_message, item.getName()))
-                .setNegativeButton(R.string.cancel, null)   // null simply closes the dialog
+                .setNegativeButton(R.string.cancel, null)   // null simply closes the dialogue
                 .setPositiveButton(R.string.delete, (dialog, which) -> deleteItem(item))
                 .show();
     }
 
-    /** Deletes the item from the database, then reloads the list so it matches. */
+    /**
+     * Deletes the item from the database, then reloads the list so it matches.
+     */
     private void deleteItem(PantryItem item) {
         PantryDataSource dataSource = new PantryDataSource(this);
         boolean deleted = false;
@@ -171,7 +179,9 @@ public class PantryListActivity extends AppCompatActivity
         }
     }
 
-    /** Shows a count of expired and expiring items, if alerts are on and there are any. */
+    /**
+     * Shows a count of expired and expiring items, if alerts are on and there are any.
+     */
     private void updateExpiryBanner(List<PantryItem> items, boolean alertsEnabled, int warningDays) {
         int count = 0;
         if (alertsEnabled) {

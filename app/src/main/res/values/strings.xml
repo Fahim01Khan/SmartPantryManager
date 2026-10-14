@@ -90,4 +90,6 @@
         <item quantity="one">⚠ %d item has expired or is expiring soon</item>
         <item quantity="other">⚠ %d items have expired or are expiring soon</item>
     </plurals>
+
+    <string name="recipe_summary">%1$s: %2$s</string>
 </resources>

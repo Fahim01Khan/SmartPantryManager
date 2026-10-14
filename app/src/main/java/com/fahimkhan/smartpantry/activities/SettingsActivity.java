@@ -65,7 +65,9 @@ public class SettingsActivity extends AppCompatActivity {
         autoCompleteDefaultUnit = findViewById(R.id.autoCompleteDefaultUnit);
     }
 
-    /** Options are "None" followed by every supported unit. */
+    /**
+     * Options are "None" followed by every supported unit.
+     */
     private void initUnitDropdown() {
         noneOption = getString(R.string.default_unit_none);
         unitOptions = new ArrayList<>();
@@ -75,7 +77,9 @@ public class SettingsActivity extends AppCompatActivity {
                 this, android.R.layout.simple_list_item_1, unitOptions));
     }
 
-    /** Shows the saved values. */
+    /**
+     * Shows the saved values.
+     */
     private void loadSettings() {
         boolean alertsEnabled = SettingsManager.isExpiryAlertEnabled(this);
         int warningDays = SettingsManager.getExpiryWarningDays(this);
@@ -89,7 +93,9 @@ public class SettingsActivity extends AppCompatActivity {
         autoCompleteDefaultUnit.setText(defaultUnit.isEmpty() ? noneOption : defaultUnit, false);
     }
 
-    /** Saves each setting as soon as the user changes it. */
+    /**
+     * Saves each setting as soon as the user changes it.
+     */
     private void initListeners() {
         switchExpiryAlerts.setOnCheckedChangeListener((button, isChecked) -> {
             SettingsManager.setExpiryAlertEnabled(this, isChecked);
@@ -115,7 +121,9 @@ public class SettingsActivity extends AppCompatActivity {
                 getResources().getQuantityString(R.plurals.expiry_days_label, days, days));
     }
 
-    /** Closes the dropdown so it isn't leaked if the screen is destroyed (e.g. rotation). */
+    /**
+     * Closes the dropdown so it isn't leaked if the screen is destroyed (e.g. rotation).
+     */
     @Override
     protected void onDestroy() {
         if (autoCompleteDefaultUnit != null) {
